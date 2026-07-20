@@ -1,0 +1,60 @@
+aid: bank-of-sydney
+url: https://raw.githubusercontent.com/api-evangelist/bank-of-sydney/refs/heads/main/apis.yml
+name: Bank of Sydney
+kind: company
+description: Bank of Sydney Ltd is an Australian authorised deposit-taking institution
+  (ADI) headquartered in Sydney, New South Wales, offering personal and business banking,
+  home loans, deposits, and everyday accounts. It is a wholly owned subsidiary of Lebanon-based
+  Bank of Beirut and operates a national branch and digital footprint across Australia.
+  As a regulated ADI, Bank of Sydney participates in Australia's Consumer Data Right
+  (CDR) / Open Banking regime, exposing a public, unauthenticated Product Reference
+  Data (PRD) API that conforms to the Data Standards Body (DSB) Consumer Data Standards.
+  Consumer-facing account and transaction data sharing is delivered to Accredited Data
+  Recipients (ADRs) under the CDR authorisation model, backed by OAuth2/OIDC.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Financial
+- Banks
+- Open Banking
+- CDR
+- Consumer Banking
+- Australia
+- Product Reference Data
+- ADI
+created: '2026-07-20'
+modified: '2026-07-20'
+specificationVersion: '0.19'
+apis:
+- aid: bank-of-sydney:bank-of-sydney-cdr-product-reference-data-api
+  name: Bank of Sydney CDR Product Reference Data API
+  tags:
+  - CDR
+  - Open Banking
+  - Product Reference Data
+  - Banking
+  - Public
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.banksyd.com.au/tools-support/open-banking/
+  baseURL: https://openbank.api.banksyd.com.au/cds-au/v1/banking/products
+  properties:
+  - url: https://www.banksyd.com.au/tools-support/open-banking/
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#banking-products
+    type: APIReference
+  - url: openapi/bank-of-sydney-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Public, unauthenticated Product Reference Data (PRD) API exposing Bank
+    of Sydney's retail and business banking product catalogue (home loans, deposits,
+    everyday accounts) under the Consumer Data Right. Confirmed live at HTTP 200 with
+    an x-v response header (supports versions 4 and 5) returning a data.products array
+    (29 products) conforming to the DSB Consumer Data Standards banking schema.
+common:
+- type: Website
+  url: https://www.banksyd.com.au/
+- type: Documentation
+  url: https://www.banksyd.com.au/tools-support/open-banking/
+- type: LinkedIn
+  url: https://www.linkedin.com/company/bank-of-sydney
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,85 @@
+aid: bank-of-sydney
+name: Bank of Sydney
+review:
+  question: Does Bank of Sydney expose a live public API surface, and if so what is it?
+  answer: true
+  date: '2026-07-20'
+  reviewer: API Evangelist
+  cdrPrdConfirmed: true
+  specProvenance: |
+    The only publicly downloadable OpenAPI contract for this surface is the shared
+    Data Standards Body (DSB) Consumer Data Standards "CDR Banking API" (OpenAPI
+    3.0.3, version 1.36.0), harvested verbatim into
+    openapi/bank-of-sydney-cds-banking-products-openapi.yml. This is the industry
+    standard that every Australian ADI implements - it is NOT a Bank-of-Sydney
+    proprietary contract. Bank of Sydney does not publish its own bank-specific
+    OpenAPI/Swagger. The unauthenticated Get Products / Get Product Detail
+    operations in this spec are the ones Bank of Sydney serves publicly; the
+    remaining paths require CDR authorisation and are not publicly callable.
+findings:
+  summary: |
+    Bank of Sydney (Bank of Sydney Ltd, a wholly owned subsidiary of Bank of
+    Beirut) runs a genuine, live, public API surface as required of every active
+    Australian ADI under the Consumer Data Right: the unauthenticated Product
+    Reference Data (PRD) API. It was confirmed live during this review, returning
+    HTTP 200 with a valid CDS payload (data.products, 29 products, brand "Bank of
+    Sydney") and a supported x-v response header. Bank of Sydney does NOT operate a
+    broad public developer portal (no developer.banksyd.com.au, no Up-style
+    personal-banking public API, no published SDKs or bank-proprietary OpenAPI).
+    Its consumer/business account and transaction data is available only to
+    Accredited Data Recipients (ADRs) through the CDR data-sharing model, gated by
+    the CDR authorisation server (OAuth2 / OpenID Connect, FAPI-hardened per the
+    CDR security profile). The only human-facing documentation is the marketing
+    "Open Banking" page describing CDR consent and the data-sharing dashboard.
+  cdrPostureNotes: |
+    - Public PRD base: https://openbank.api.banksyd.com.au/cds-au/v1/banking/products
+    - CDS banking base: https://openbank.api.banksyd.com.au/cds-au/v1
+    - Supported PRD versions: x-v 4 and 5 returned HTTP 200; x-v 1 and 2 returned
+      HTTP 406 (Unsupported Version); missing/unsupported x-v returns PCUA006.
+    - Infrastructure fronted by AWS API Gateway + CloudFront + NLB
+      (ap-southeast-2), typical of a vendor/managed CDR data-holder platform.
+    - The generic host api.banksyd.com.au returns a blanket 401
+      (UnauthorizedException) for the CDS path and is NOT the public PRD host - the
+      registered PublicBaseURI is the openbank.api.banksyd.com.au host.
+  authModel: |
+    Product Reference Data: none (public, unauthenticated, per CDS). Consumer data
+    sharing: CDR authorisation model - OAuth2 / OIDC with the FAPI-based CDR
+    security profile, Accredited Data Recipient (ADR) accreditation, and consumer
+    consent via the CDR data-sharing dashboard. No public API keys or self-serve
+    developer credentials are issued outside the ADR ecosystem.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://openbank.api.banksyd.com.au/cds-au/v1/banking/products
+      documented: true
+      note: Public CDR Product Reference Data endpoint. Confirmed HTTP 200 with x-v response header and data.products array.
+    - protocol: REST
+      scheme: https
+      baseURL: https://openbank.api.banksyd.com.au/cds-au/v1
+      documented: true
+      note: CDS banking base path. Authenticated CDR data-sharing endpoints (accounts, transactions, etc.) sit here behind the CDR authorisation server.
+  endpointsConfirmed:
+    - GET https://openbank.api.banksyd.com.au/cds-au/v1/banking/products  (HTTP 200, x-v 4/5, 29 products)
+  developerPortal: false
+  developerPortalNote: |
+    No dedicated developer portal or public non-CDR API was found. The bank's only
+    open-banking presence is the customer-facing marketing/consent page at
+    https://www.banksyd.com.au/tools-support/open-banking/ (the primary site
+    bot-blocks automated fetches with HTTP 403, but the page is real and indexed).
+sources:
+  - url: https://openbank.api.banksyd.com.au/cds-au/v1/banking/products
+    type: APIReference
+    note: Live public PRD endpoint. Directly fetched - HTTP 200 with x-v 4, data.products array (29 products), brand "Bank of Sydney".
+  - url: https://www.banksyd.com.au/tools-support/open-banking/
+    type: Documentation
+    note: Bank of Sydney Open Banking / Consumer Data Right customer page (bot-blocked to automated fetch, confirmed real via search index).
+  - url: https://consumerdatastandardsaustralia.github.io/standards/includes/swagger/cds_banking.json
+    type: OpenAPI
+    note: Authoritative DSB Consumer Data Standards "CDR Banking API" spec (OpenAPI 3.0.3 v1.36.0). Source of the harvested openapi/ file. Shared standard, not bank-proprietary.
+  - url: https://github.com/LukePrior/Australian-Open-Banking-Data-Database
+    type: Reference
+    note: Community catalogue of Australian ADI CDS endpoints; corroborated the openbank.api.banksyd.com.au PublicBaseURI for Bank of Sydney.
+actions:
+  openapiPath: openapi/bank-of-sydney-cds-banking-products-openapi.yml
+  openapiProvenance: DSB Consumer Data Standards (shared standard) - not a bank-proprietary contract
+  apisYmlUpdated: true
