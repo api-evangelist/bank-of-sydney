@@ -1,0 +1,38 @@
+generated: '2026-07-20'
+method: derived
+source: >-
+  openapi/bank-of-sydney-cds-banking-products-openapi.yml + Consumer Data Standards
+  conventions. Cross-links authentication/, scopes/, errors/, lifecycle/.
+authentication:
+  style: >-
+    Public (none) for Product Reference Data; CDR OAuth2 authorization-code + OIDC +
+    mutual-TLS holder-of-key for consumer data. See authentication/bank-of-sydney-authentication.yml.
+idempotency:
+  supported: false
+  note: Read-only (GET) surface; the CDS banking API defines no idempotency-key contract.
+pagination:
+  style: page-number
+  params: [page, page-size]
+  defaults: {page: 1, page-size: 25}
+  response_links: LinksPaginated (first, prev, self, next, last)
+  response_meta: MetaPaginated (totalRecords, totalPages)
+versioning:
+  style: per-endpoint header version negotiation
+  request_headers: [x-v, x-min-v]
+  response_header: x-v
+  see: lifecycle/bank-of-sydney-lifecycle.yml
+request_tracing:
+  header: x-fapi-interaction-id
+  note: >-
+    FAPI interaction id echoed on responses for correlation (defined in-spec on the
+    authenticated endpoints; a client-supplied value is echoed back).
+filtering:
+  product_endpoints: [effective (CURRENT/FUTURE/ALL), updated-since, brand, product-category]
+error_envelope:
+  schema: ResponseErrorListV2
+  shape: '{errors: [{code, title, detail, meta}]}'
+  codes: urn:au-cds:error:* (see errors/bank-of-sydney-problem-types.yml)
+rate_limiting:
+  signaling: >-
+    Not documented on the public PRD surface; CDR defines non-functional traffic
+    thresholds for data holders rather than per-response rate-limit headers.

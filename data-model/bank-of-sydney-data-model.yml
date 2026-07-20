@@ -1,0 +1,70 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/bank-of-sydney-cds-banking-products-openapi.yml (component schemas + id-reference fields)
+note: >-
+  Entity graph of the CDS Banking data model as implemented by Bank of Sydney. Only the
+  Product entity (BankingProductV6 / BankingProductDetailV7) is reachable on the public
+  unauthenticated surface; the rest require CDR authorisation.
+entities:
+  - name: BankingProduct
+    schema: BankingProductV6 / BankingProductDetailV7
+    id_field: productId
+    id_note: BankingProductId - data-holder-specific unique id (not ID-permanence bound).
+    public: true
+    categories_enum: BankingProductCategoryV2
+  - name: BankingAccount
+    schema: BankingAccountV3 / BankingAccountDetailV5
+    id_field: accountId
+    id_note: BankingAccountId - CDR ID-permanence bound.
+    public: false
+  - name: BankingBalance
+    schema: BankingBalance
+    public: false
+  - name: BankingTransaction
+    schema: BankingTransactionV2 / BankingTransactionDetailV3
+    id_field: transactionId
+    public: false
+  - name: BankingDirectDebit
+    schema: BankingDirectDebitAuthorisation
+    public: false
+  - name: BankingScheduledPayment
+    schema: BankingScheduledPaymentV2
+    public: false
+  - name: BankingPayee
+    schema: BankingPayeeV2
+    id_field: payeeId
+    public: false
+  - name: BankingInstalmentPlan
+    schema: BankingInstalmentPlan
+    public: false
+relationships:
+  - from: BankingAccount
+    to: BankingBalance
+    kind: has_one
+    via: accountId
+  - from: BankingAccount
+    to: BankingTransaction
+    kind: has_many
+    via: accountId
+  - from: BankingAccount
+    to: BankingDirectDebit
+    kind: has_many
+    via: accountId
+  - from: BankingAccount
+    to: BankingScheduledPayment
+    kind: has_many
+    via: accountId
+  - from: BankingAccount
+    to: BankingInstalmentPlan
+    kind: has_many
+    via: accountId
+  - from: BankingTransaction
+    to: BankingAccount
+    kind: belongs_to
+    via: accountId
+  - from: BankingProduct
+    to: BankingAccount
+    kind: none
+    via_note: >-
+      Products and accounts share productCategory but are intentionally NOT linked by id
+      in the CDR regime (a product and the account it spawned diverge over time).

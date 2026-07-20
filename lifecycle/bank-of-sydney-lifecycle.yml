@@ -1,0 +1,31 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  Consumer Data Standards versioning/deprecation model + openapi/ (x-v/x-min-v version
+  negotiation, obsolete-version links). Bank of Sydney publishes no bank-specific
+  changelog, SLA, or status page beyond the CDR regime.
+versioning:
+  scheme: header-endpoint-version
+  mechanism: >-
+    Per-endpoint integer versioning negotiated via the x-v (requested) and x-min-v
+    (minimum acceptable) request headers; the response echoes the served version in x-v.
+    Unsupported versions return 406.
+  bank_of_sydney_prd_supported: ['4', '5']
+  docs: https://consumerdatastandardsaustralia.github.io/standards/#versioning
+deprecation:
+  policy: >-
+    CDS deprecates endpoint versions by marking prior versions "obsolete" (linked from
+    each operation's description, e.g. Get Products v1-v4). Future/obsolete products are
+    also handled via product effectiveFrom/effectiveTo dates rather than deletion.
+  policy_url: https://consumerdatastandardsaustralia.github.io/standards/#versioning
+  sunset_header: false
+  obsolete_versions:
+    - listBankingProducts: [v1, v2, v3, v4]
+    - getBankingProductDetail: [v1, v2, v3]
+    - listBankingAccounts / others: prior versions linked as obsolete in-spec
+sla:
+  url: null
+  uptime_target: null
+  note: No bank-specific published SLA; availability governed by the CDR data-holder obligations.
+status_page: null
+deprecated_operations: []

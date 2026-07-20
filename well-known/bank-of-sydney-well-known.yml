@@ -1,0 +1,22 @@
+generated: '2026-07-20'
+method: probed
+host: https://openbank.api.banksyd.com.au
+note: >-
+  All /.well-known/ probes against the public CDR host returned HTTP 403 (the AWS API
+  Gateway / CloudFront edge blocks non-CDR-client requests). No discovery document was
+  retrievable, so no WellKnown/SecurityTxt pointer is wired. Absence recorded for
+  auditability. The CDR OIDC discovery document lives on the bank's separate CDR
+  authorization server (ADR-facing), not on this resource host.
+documents:
+  - path: /.well-known/openid-configuration
+    status: 403
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/api-catalog
+    status: 403
+  - path: /.well-known/ai-plugin.json
+    status: 403
+  - path: /cds-au/v1/.well-known/openid-configuration
+    status: 403

@@ -1,0 +1,39 @@
+generated: '2026-07-20'
+method: derived
+status: candidate
+source: openapi/bank-of-sydney-cds-banking-products-openapi.yml
+note: >-
+  No official hosted/remote MCP server is published by Bank of Sydney. This is a DERIVED
+  candidate tool list from the CDS banking operations the bank serves. Only the two
+  Product Reference Data tools are callable without CDR authorisation; the remaining tools
+  require an Accredited Data Recipient token under consumer consent and are listed for
+  completeness.
+server:
+  name: bank-of-sydney
+  transport: http
+  url: null
+tools:
+  - name: list_banking_products
+    description: List Bank of Sydney's publicly available banking products (CDR PRD, unauthenticated).
+    auth: none
+    source_operation: openapi/bank-of-sydney-cds-banking-products-openapi.yml#listBankingProducts
+  - name: get_banking_product_detail
+    description: Get detail for a single banking product by productId (CDR PRD, unauthenticated).
+    auth: none
+    source_operation: openapi/bank-of-sydney-cds-banking-products-openapi.yml#getBankingProductDetail
+  - name: list_banking_accounts
+    description: List the consumer's accounts (requires CDR authorisation).
+    auth: cdr-oauth2
+    source_operation: openapi/bank-of-sydney-cds-banking-products-openapi.yml#listBankingAccounts
+  - name: get_banking_account_detail
+    description: Get detail for a single account (requires CDR authorisation).
+    auth: cdr-oauth2
+    source_operation: openapi/bank-of-sydney-cds-banking-products-openapi.yml#getBankingAccountDetail
+  - name: list_banking_transactions
+    description: List transactions for an account (requires CDR authorisation).
+    auth: cdr-oauth2
+    source_operation: openapi/bank-of-sydney-cds-banking-products-openapi.yml#listBankingTransactions
+  - name: list_banking_payees
+    description: List the consumer's saved payees (requires CDR authorisation).
+    auth: cdr-oauth2
+    source_operation: openapi/bank-of-sydney-cds-banking-products-openapi.yml#listBankingPayees

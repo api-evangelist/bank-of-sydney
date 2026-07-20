@@ -1,0 +1,50 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  Consumer Data Standards (DSB) CDR Banking API v1.36.0 harvested into openapi/, plus
+  Bank of Sydney Open Banking page and the CDR regulatory regime it participates in.
+standards:
+  - id: cds-au-banking
+    name: Consumer Data Standards (AU CDR) - Banking
+    conforms: true
+    evidence: >-
+      Implements the DSB Consumer Data Standards CDR Banking API (OpenAPI 3.0.3
+      v1.36.0); live Product Reference Data endpoint returns compliant data.products
+      payloads with x-v version negotiation.
+  - id: cdr-consumer-data-right
+    name: Consumer Data Right (regulatory)
+    conforms: true
+    evidence: Bank of Sydney is a CDR data holder (Australian ADI) sharing product and, to ADRs, consumer data.
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: true
+    evidence: CDR authorisation uses OAuth2 authorization-code; x-scopes declare bank:* read scopes.
+  - id: oidc
+    name: OpenID Connect
+    conforms: true
+    evidence: CDR consent/authorisation uses OpenID Connect under the CDR security profile.
+  - id: fapi
+    name: FAPI (Financial-grade API)
+    conforms: true
+    evidence: CDR security profile is FAPI-based with mutual-TLS holder-of-key sender-constrained tokens.
+  - id: rfc9457-problem-details
+    name: RFC 9457 / RFC 7807 Problem Details
+    conforms: false
+    evidence: >-
+      Errors use the CDS ResponseErrorListV2 envelope (errors[] with code/title/detail/meta
+      and urn:au-cds:error:* codes), not application/problem+json. Structurally similar but a
+      distinct CDS error format.
+  - id: pagination
+    name: Standard pagination
+    conforms: true
+    evidence: page / page-size query params with LinksPaginated (first/prev/self/next/last) and MetaPaginated (totalRecords/totalPages).
+  - id: idempotency
+    name: Idempotency-Key
+    conforms: false
+    evidence: Read-only (GET) surface; the CDS banking API defines no idempotency-key contract.
+  - id: fhir
+    name: HL7 FHIR
+    conforms: false
+  - id: scim
+    name: SCIM 2.0
+    conforms: false

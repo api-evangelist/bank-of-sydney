@@ -1,0 +1,57 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  Consumer Data Standards (DSB) CDR security profile + Bank of Sydney Open Banking
+  page (https://www.banksyd.com.au/tools-support/open-banking/); the harvested CDS
+  banking spec expresses scopes via the x-scopes extension rather than an OpenAPI
+  securitySchemes block, so this profile is captured from the CDR regime it implements.
+summary:
+  types: [none, oauth2, openIdConnect, mutualTLS]
+  public_surface: >-
+    Product Reference Data (Get Products / Get Product Detail) is public and
+    unauthenticated per the Consumer Data Standards - no API key or token required.
+  authenticated_surface: >-
+    All consumer account/transaction/payee/payment endpoints require CDR
+    authorisation: an Accredited Data Recipient (ADR) acting under active consumer
+    consent, using OAuth2 authorization-code + OpenID Connect hardened by the
+    FAPI-based CDR security profile, with mutual-TLS holder-of-key sender-constrained
+    tokens. No self-serve public developer credentials are issued outside the ADR
+    ecosystem.
+  oauth2_flows: [authorizationCode]
+  api_key_in: []
+schemes:
+  - name: publicProductReferenceData
+    type: none
+    description: >-
+      Public, unauthenticated Product Reference Data endpoints (listBankingProducts,
+      getBankingProductDetail). No credential required; only the x-v version header.
+    applies_to: [listBankingProducts, getBankingProductDetail]
+    sources: [openapi/bank-of-sydney-cds-banking-products-openapi.yml]
+  - name: cdrOAuth2
+    type: oauth2
+    scheme: authorizationCode
+    description: >-
+      CDR authorisation via OAuth2 authorization-code flow. Authorization/token
+      endpoints are published on the data holder's CDR authorization server (OIDC
+      discovery), not on the resource host. Tokens are FAPI sender-constrained.
+    scopes:
+      - bank:accounts.basic:read
+      - bank:accounts.detail:read
+      - bank:transactions:read
+      - bank:payees:read
+      - bank:regular_payments:read
+    sources: [openapi/bank-of-sydney-cds-banking-products-openapi.yml]
+  - name: cdrOIDC
+    type: openIdConnect
+    description: >-
+      OpenID Connect (CDR profile) for authenticating the consumer and issuing the
+      ID token during the CDR consent/authorisation flow.
+    sources: [Consumer Data Standards CDR security profile]
+  - name: cdrMutualTLS
+    type: mutualTLS
+    description: >-
+      Mutual-TLS (FAPI holder-of-key). Accredited Data Recipients present a client
+      certificate; access tokens are bound to the presented certificate. The CDS
+      spec servers[] advertise mtls.dh.example.com / tls.dh.example.com placeholder
+      hosts for the MTLS and TLS variants.
+    sources: [Consumer Data Standards CDR security profile]

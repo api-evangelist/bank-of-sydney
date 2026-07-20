@@ -1,0 +1,37 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/bank-of-sydney-cds-banking-products-openapi.yml (x-scopes extension per operation)
+docs: https://consumerdatastandardsaustralia.github.io/standards/#security-profile
+note: >-
+  The harvested CDS banking spec declares scopes on each operation via the x-scopes
+  extension (not an OpenAPI oauth2 securityScheme), so the standard derive-oauth-scopes
+  pass yields nothing; these five CDR banking scopes are extracted from those x-scopes
+  values. Product Reference Data operations are public and require no scope. Scopes are
+  granted through the CDR authorisation server to Accredited Data Recipients under
+  consumer consent.
+schemes:
+  - name: cdrOAuth2
+    type: oauth2
+    flow: authorizationCode
+    source: openapi/bank-of-sydney-cds-banking-products-openapi.yml
+scopes:
+  - scope: bank:accounts.basic:read
+    description: Read basic account data - the list of accounts and their balances.
+    flows: [authorizationCode]
+    sources: [openapi/bank-of-sydney-cds-banking-products-openapi.yml]
+  - scope: bank:accounts.detail:read
+    description: Read detailed account data, including account numbers and product details for a specific account.
+    flows: [authorizationCode]
+    sources: [openapi/bank-of-sydney-cds-banking-products-openapi.yml]
+  - scope: bank:transactions:read
+    description: Read transaction data for authorised accounts.
+    flows: [authorizationCode]
+    sources: [openapi/bank-of-sydney-cds-banking-products-openapi.yml]
+  - scope: bank:payees:read
+    description: Read the consumer's saved payees.
+    flows: [authorizationCode]
+    sources: [openapi/bank-of-sydney-cds-banking-products-openapi.yml]
+  - scope: bank:regular_payments:read
+    description: Read regular payments - direct debits and scheduled payments.
+    flows: [authorizationCode]
+    sources: [openapi/bank-of-sydney-cds-banking-products-openapi.yml]

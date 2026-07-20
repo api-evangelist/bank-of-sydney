@@ -1,0 +1,57 @@
+generated: '2026-07-20'
+method: derived
+source: >-
+  openapi/bank-of-sydney-cds-banking-products-openapi.yml (4xx responses referencing
+  ResponseErrorListV2) enriched with the DSB Consumer Data Standards error-code registry.
+format: cds-error-list
+note: >-
+  The CDS banking API returns a ResponseErrorListV2 envelope: {errors: [{code, title,
+  detail, meta}]} with standard urn:au-cds:error:* codes. This is the CDR equivalent of a
+  problem-types catalog (not application/problem+json). Vendor note from review: a
+  missing/unsupported x-v version header against the Bank of Sydney PRD host has been
+  observed returning application code PCUA006.
+envelope:
+  schema: ResponseErrorListV2
+  fields: ['errors[].code', 'errors[].title', 'errors[].detail', 'errors[].meta']
+problems:
+  - status: 400
+    code: urn:au-cds:error:cds:field:invalid
+    title: Invalid Field
+    remediation: Correct the malformed query/field value.
+  - status: 400
+    code: urn:au-cds:error:cds:field:missing
+    title: Missing Required Field
+    remediation: Supply the required field.
+  - status: 400
+    code: urn:au-cds:error:cds:header:missing
+    title: Missing Required Header
+    remediation: Include the required header (e.g. x-v).
+  - status: 400
+    code: urn:au-cds:error:cds:header:invalid
+    title: Invalid Version
+    remediation: Send a positive-integer x-v header value.
+  - status: 400
+    code: urn:au-cds:error:cds:field:invalid-date-time
+    title: Invalid Date
+    remediation: Use a valid DateTimeString for date/time fields (e.g. updated-since).
+  - status: 400
+    code: urn:au-cds:error:cds:field:invalid-page-size
+    title: Invalid Page Size
+    remediation: Use a positive-integer page-size.
+  - status: 404
+    code: urn:au-cds:error:cds:resource:not-found
+    title: Resource Not Found
+    remediation: The requested product/resource id does not exist.
+  - status: 406
+    code: urn:au-cds:error:cds:header:unsupported-version
+    title: Unsupported Version
+    remediation: >-
+      Requested x-v is not supported. Bank of Sydney PRD supports x-v 4 and 5;
+      x-v 1 and 2 return 406.
+  - status: 422
+    code: urn:au-cds:error:cds:field:invalid-page
+    title: Invalid Page
+    remediation: Requested page is out of range.
+source_operations:
+  - openapi/bank-of-sydney-cds-banking-products-openapi.yml#listBankingProducts
+  - openapi/bank-of-sydney-cds-banking-products-openapi.yml#getBankingProductDetail

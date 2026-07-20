@@ -49,12 +49,42 @@ apis:
     an x-v response header (supports versions 4 and 5) returning a data.products array
     (29 products) conforming to the DSB Consumer Data Standards banking schema.
 common:
+- type: DomainSecurity
+  url: security/bank-of-sydney-domain-security.yml
 - type: Website
   url: https://www.banksyd.com.au/
 - type: Documentation
   url: https://www.banksyd.com.au/tools-support/open-banking/
+- type: GettingStarted
+  url: https://www.banksyd.com.au/tools-support/open-banking/
+- type: APIReference
+  url: https://consumerdatastandardsaustralia.github.io/standards/#banking-products
 - type: LinkedIn
   url: https://www.linkedin.com/company/bank-of-sydney
+- type: Authentication
+  url: authentication/bank-of-sydney-authentication.yml
+- type: OAuthScopes
+  url: scopes/bank-of-sydney-scopes.yml
+- type: Conventions
+  url: conventions/bank-of-sydney-conventions.yml
+- type: ErrorCatalog
+  url: errors/bank-of-sydney-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/bank-of-sydney-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/bank-of-sydney-lifecycle.yml
+- type: Conformance
+  url: conformance/bank-of-sydney-conformance.yml
+- type: DataModel
+  url: data-model/bank-of-sydney-data-model.yml
+- type: MCPServer
+  url: mcp/bank-of-sydney-mcp.yml
+- type: Overlay
+  url: overlays/bank-of-sydney-cds-banking-products-overlay.yaml
+- type: LLMsTxt
+  url: llms/bank-of-sydney-llms.txt
+- type: AgentSkill
+  url: skills/bank-of-sydney-product-reference-data.md
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

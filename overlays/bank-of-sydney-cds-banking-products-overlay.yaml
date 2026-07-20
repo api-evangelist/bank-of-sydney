@@ -1,0 +1,28 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Bank of Sydney CDR Banking
+  version: 1.0.0
+extends: openapi/bank-of-sydney-cds-banking-products-openapi.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: Bank of Sydney
+      x-apievangelist-note: >-
+        Harvested spec is the shared DSB Consumer Data Standards CDR Banking API, not a
+        bank-proprietary contract. Bank of Sydney serves the unauthenticated Product
+        Reference Data operations publicly at the real base URL below; the remaining
+        operations require CDR authorisation.
+      x-apievangelist-public-baseURL: https://openbank.api.banksyd.com.au/cds-au/v1
+      x-apievangelist-prd-supported-versions: ['4', '5']
+  - target: $.servers
+    update:
+      - description: Bank of Sydney public CDR Product Reference Data base (unauthenticated)
+        url: https://openbank.api.banksyd.com.au/cds-au/v1
+  - target: $.paths['/banking/products'].get
+    update:
+      x-apievangelist-public: true
+      x-apievangelist-auth: none
+  - target: $.paths['/banking/products/{productId}'].get
+    update:
+      x-apievangelist-public: true
+      x-apievangelist-auth: none
