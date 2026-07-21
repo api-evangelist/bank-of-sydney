@@ -22,7 +22,7 @@ tags:
 - Product Reference Data
 - ADI
 created: '2026-07-20'
-modified: '2026-07-20'
+modified: '2026-07-21'
 specificationVersion: '0.19'
 apis:
 - aid: bank-of-sydney:bank-of-sydney-cdr-product-reference-data-api
@@ -45,9 +45,115 @@ apis:
     type: OpenAPI
   description: Public, unauthenticated Product Reference Data (PRD) API exposing Bank
     of Sydney's retail and business banking product catalogue (home loans, deposits,
-    everyday accounts) under the Consumer Data Right. Confirmed live at HTTP 200 with
-    an x-v response header (supports versions 4 and 5) returning a data.products array
-    (29 products) conforming to the DSB Consumer Data Standards banking schema.
+    everyday accounts) under the Consumer Data Right. Confirmed live at HTTP 200 (with
+    request header x-v:4) returning a data.products array (29 products) conforming to
+    the DSB Consumer Data Standards banking schema. Covers the Get Products and Get
+    Product Detail endpoints (/banking/products and /banking/products/{productId}),
+    both public and requiring no consumer authorisation.
+- aid: bank-of-sydney:bank-of-sydney-cdr-accounts-balances-api
+  name: Bank of Sydney CDR Accounts & Balances API
+  tags:
+  - CDR
+  - Open Banking
+  - Accounts
+  - Balances
+  - Banking
+  - Authorized
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.banksyd.com.au/tools-support/open-banking/
+  baseURL: https://openbank.api.banksyd.com.au/cds-au/v1/banking/accounts
+  properties:
+  - url: https://www.banksyd.com.au/tools-support/open-banking/
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#banking-apis
+    type: APIReference
+  - url: openapi/bank-of-sydney-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Consumer-authorised account and balance data-sharing surface under the
+    Consumer Data Right, delivered to Accredited Data Recipients (ADRs) under the CDR
+    authorisation model (OAuth2/OIDC + PKCE, MTLS-secured). Covers Get Accounts
+    (/banking/accounts), Get Bulk Balances (/banking/accounts/balances), Get Account
+    Balance (/banking/accounts/{accountId}/balance) and Get Account Detail
+    (/banking/accounts/{accountId}). Not public; the base endpoint returns HTTP 403
+    without a valid CDR consumer authorisation. Conforms to the DSB Consumer Data
+    Standards Banking API v1.36.0.
+- aid: bank-of-sydney:bank-of-sydney-cdr-transactions-api
+  name: Bank of Sydney CDR Transactions API
+  tags:
+  - CDR
+  - Open Banking
+  - Transactions
+  - Banking
+  - Authorized
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.banksyd.com.au/tools-support/open-banking/
+  baseURL: https://openbank.api.banksyd.com.au/cds-au/v1/banking/accounts/{accountId}/transactions
+  properties:
+  - url: https://www.banksyd.com.au/tools-support/open-banking/
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#banking-apis
+    type: APIReference
+  - url: openapi/bank-of-sydney-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Consumer-authorised transaction data-sharing surface under the Consumer
+    Data Right, delivered to Accredited Data Recipients (ADRs) under the CDR
+    authorisation model (OAuth2/OIDC, MTLS-secured). Covers Get Transactions For
+    Account (/banking/accounts/{accountId}/transactions) and Get Transaction Detail
+    (/banking/accounts/{accountId}/transactions/{transactionId}), supporting
+    filtering by date, amount and text. Not public; requires a valid CDR consumer
+    authorisation. Conforms to the DSB Consumer Data Standards Banking API v1.36.0.
+- aid: bank-of-sydney:bank-of-sydney-cdr-direct-debits-scheduled-payments-api
+  name: Bank of Sydney CDR Direct Debits & Scheduled Payments API
+  tags:
+  - CDR
+  - Open Banking
+  - Direct Debits
+  - Scheduled Payments
+  - Banking
+  - Authorized
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.banksyd.com.au/tools-support/open-banking/
+  baseURL: https://openbank.api.banksyd.com.au/cds-au/v1/banking/accounts/direct-debits
+  properties:
+  - url: https://www.banksyd.com.au/tools-support/open-banking/
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#banking-apis
+    type: APIReference
+  - url: openapi/bank-of-sydney-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Consumer-authorised direct-debit and scheduled-payment data-sharing
+    surface under the Consumer Data Right, delivered to Accredited Data Recipients
+    (ADRs) under the CDR authorisation model (OAuth2/OIDC, MTLS-secured). Covers Get
+    Direct Debits For Account, Get Bulk Direct Debits (/banking/accounts/direct-debits),
+    Get Scheduled Payments For Account, Get Scheduled Payments Bulk
+    (/banking/payments/scheduled) and the Get Payment Plans endpoints. Not public,
+    requires a valid CDR consumer authorisation. Conforms to the DSB Consumer Data
+    Standards Banking API v1.36.0.
+- aid: bank-of-sydney:bank-of-sydney-cdr-payees-api
+  name: Bank of Sydney CDR Payees API
+  tags:
+  - CDR
+  - Open Banking
+  - Payees
+  - Banking
+  - Authorized
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.banksyd.com.au/tools-support/open-banking/
+  baseURL: https://openbank.api.banksyd.com.au/cds-au/v1/banking/payees
+  properties:
+  - url: https://www.banksyd.com.au/tools-support/open-banking/
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#banking-apis
+    type: APIReference
+  - url: openapi/bank-of-sydney-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Consumer-authorised saved-payee data-sharing surface under the Consumer
+    Data Right, delivered to Accredited Data Recipients (ADRs) under the CDR
+    authorisation model (OAuth2/OIDC, MTLS-secured). Covers Get Payees (/banking/payees)
+    and Get Payee Detail (/banking/payees/{payeeId}), returning the consumer's stored
+    domestic, biller and international payee records. Not public; requires a valid CDR
+    consumer authorisation. Conforms to the DSB Consumer Data Standards Banking API
+    v1.36.0.
 common:
 - type: DomainSecurity
   url: security/bank-of-sydney-domain-security.yml
