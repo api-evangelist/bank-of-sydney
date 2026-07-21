@@ -155,6 +155,8 @@ apis:
     consumer authorisation. Conforms to the DSB Consumer Data Standards Banking API
     v1.36.0.
 common:
+- type: AgenticAccess
+  url: agentic-access/bank-of-sydney-agentic-access.yml
 - type: DomainSecurity
   url: security/bank-of-sydney-domain-security.yml
 - type: Website
