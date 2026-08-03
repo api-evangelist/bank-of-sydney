@@ -1,0 +1,26 @@
+{
+  "provider": "bank-of-sydney",
+  "sources": [
+    "bank-of-sydney-banking-account-balances-api-openapi.yml",
+    "bank-of-sydney-banking-account-direct-debits-api-openapi.yml",
+    "bank-of-sydney-banking-account-scheduled-payments-api-openapi.yml",
+    "bank-of-sydney-banking-account-transactions-api-openapi.yml",
+    "bank-of-sydney-banking-accounts-api-openapi.yml",
+    "bank-of-sydney-banking-payees-api-openapi.yml",
+    "bank-of-sydney-banking-products-api-openapi.yml"
+  ],
+  "outputs": [
+    "bank-of-sydney-banking-account-balances-api-openapi.yml",
+    "bank-of-sydney-banking-account-direct-debits-api-openapi.yml",
+    "bank-of-sydney-banking-account-scheduled-payments-api-openapi.yml",
+    "bank-of-sydney-banking-account-transactions-api-openapi.yml",
+    "bank-of-sydney-banking-accounts-api-openapi.yml",
+    "bank-of-sydney-banking-payees-api-openapi.yml",
+    "bank-of-sydney-banking-products-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
