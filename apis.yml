@@ -35,7 +35,7 @@ tags:
 - ADI
 created: '2026-07-20'
 modified: '2026-07-21'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: bank-of-sydney:bank-of-sydney-banking-account-balances-api
   name: Bank of Sydney Banking Account Balances API
