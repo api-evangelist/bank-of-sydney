@@ -161,6 +161,9 @@ apis:
   - type: APIReference
     url: https://consumerdatastandardsaustralia.github.io/standards/#banking-apis
 common:
+- type: CapabilityMap
+  url: capabilities/bank-of-sydney-capability-edges.yml
+  name: Bank of Sydney Business Capability Map
 - type: AgenticAccess
   url: agentic-access/bank-of-sydney-agentic-access.yml
 - type: DomainSecurity

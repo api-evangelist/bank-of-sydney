@@ -1,0 +1,46 @@
+slug: bank-of-sydney
+provider: Bank of Sydney
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Banking & Capital Markets
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Banking Products
+  spec_file: bank-of-sydney-banking-products-api-openapi.yml
+  capability_id: BC-1310.10
+  capability_id_l1: BC-1310
+  capability_name: Product Catalogue Management
+  confidence: 0.85
+  evidence: GET /banking/products listBankingProducts 'Get Products'; schemas BankingProductDetailV7,
+    BankingProductFeeV2, BankingProductDepositRateV2, BankingProductEligibilityV2, BankingProductCategoryV2
+  reason: Operations expose the bank's product catalogue with rates, fees, constraints and eligibility
+    - a banking product master/catalogue surface (BC-1310.10), with parameter data as supporting detail.
+- tag: Banking Account Scheduled Payments
+  spec_file: bank-of-sydney-banking-account-scheduled-payments-api-openapi.yml
+  capability_id: BC-1340
+  capability_id_l1: BC-1340
+  capability_name: Payments & Card Management
+  confidence: 0.72
+  evidence: GET /banking/payments/scheduled  listScheduledPaymentsBulk; schemas BankingScheduledPaymentV2,
+    BankingScheduledPaymentRecurrence, BankingDomesticPayeePayId, BankingBillerPayee
+  reason: Scheduled and recurring payment instructions with payee details are payments-domain data. Instalment
+    plan endpoints hint at lending, but the dominant surface is scheduled payments, so only the payments
+    L1 is asserted.
+- tag: Banking Account Direct Debits
+  spec_file: bank-of-sydney-banking-account-direct-debits-api-openapi.yml
+  capability_id: BC-1340
+  capability_id_l1: BC-1340
+  capability_name: Payments & Card Management
+  confidence: 0.7
+  evidence: GET /banking/accounts/{accountId}/direct-debits  listDirectDebits  Get Direct Debits For Account;
+    schemas BankingDirectDebit, BankingAuthorisedEntity, ResponseBankingDirectDebitAuthorisationList
+  reason: Exposes direct debit authorisations held against accounts — payment mandate/instruction data
+    in the payments domain; read-only surface leaves the sub-capability open.
