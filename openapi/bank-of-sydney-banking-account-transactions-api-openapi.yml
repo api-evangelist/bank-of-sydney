@@ -345,6 +345,60 @@ paths:
       x-version: '3'
 components:
   schemas:
+    BankingTransactionId:
+      description: A unique identifier for a Banking transaction, generated according to [CDR ID Permanence](#id-permanence) requirements.
+      type: string
+      x-cds-type: ASCIIString
+    BankingTransactionDetailV3_allOf:
+      properties:
+        extendedData:
+          $ref: '#/components/schemas/BankingTransactionDetailV3_allOf_extendedData'
+      required:
+      - extendedData
+      type: object
+    ResponseErrorListV2:
+      properties:
+        errors:
+          description: List of errors.
+          items:
+            $ref: '#/components/schemas/ErrorV2'
+          type: array
+      required:
+      - errors
+      type: object
+    MetaPaginatedTransaction:
+      allOf:
+      - $ref: '#/components/schemas/MetaPaginated'
+      - $ref: '#/components/schemas/MetaPaginatedTransaction_allOf'
+    MetaPaginatedTransaction_allOf:
+      properties:
+        isQueryParamUnsupported:
+          default: false
+          description: '`true` if _text_ query parameter is not supported.'
+          type: boolean
+      type: object
+    NppPaymentService:
+      description: Identifier of the applicable overlay service. The _service_ is used in conjunction with the _serviceVersion_. See [here](#npp-services) for more details.
+      enum:
+      - X2P1
+      - IFTI
+      - BSCT
+      - CATSCT
+      example: X2P1
+      type: string
+    BankingTransactionDetailV3:
+      allOf:
+      - $ref: '#/components/schemas/BankingTransactionV2'
+      - $ref: '#/components/schemas/BankingTransactionDetailV3_allOf'
+    ResponseBankingTransactionListV2_data:
+      properties:
+        transactions:
+          items:
+            $ref: '#/components/schemas/BankingTransactionV2'
+          type: array
+      required:
+      - transactions
+      type: object
     MetaPaginated:
       properties:
         totalRecords:
@@ -359,16 +413,6 @@ components:
       - totalPages
       - totalRecords
       type: object
-    ResponseErrorListV2:
-      properties:
-        errors:
-          description: List of errors.
-          items:
-            $ref: '#/components/schemas/ErrorV2'
-          type: array
-      required:
-      - errors
-      type: object
     Links:
       properties:
         self:
@@ -378,6 +422,36 @@ components:
       required:
       - self
       type: object
+    Meta:
+      type: object
+    BankingInstalmentPlanId:
+      description: A unique identifier for a Banking instalment plan, generated according to [CDR ID Permanence](#id-permanence) requirements.
+      type: string
+      x-cds-type: ASCIIString
+    BankingTransactionDetailV3_allOf_extendedData:
+      properties:
+        payer:
+          description: Label of the originating payer. Mandatory for inbound payment.
+          type: string
+        payee:
+          description: Label of the target PayID. Mandatory for an outbound payment. The name assigned to the BSB/Account Number or PayID (by the owner of the PayID).
+          type: string
+        extensionUType:
+          description: Optional extended data specific to transactions. Currently extended data is supported for NPP service overlays.
+          enum:
+          - nppPayload
+          type: string
+        nppPayload:
+          $ref: '#/components/schemas/BankingTransactionDetailV3_allOf_extendedData_nppPayload'
+      type: object
+      x-conditional:
+      - payer
+      - payee
+      - nppPayload
+    BankingAccountId:
+      description: A unique identifier for a Banking account, generated according to [CDR ID Permanence](#id-permanence) requirements.
+      type: string
+      x-cds-type: ASCIIString
     ResponseBankingTransactionListV2:
       properties:
         data:
@@ -391,14 +465,64 @@ components:
       - links
       - meta
       type: object
-    MetaPaginatedTransaction:
-      allOf:
-      - $ref: '#/components/schemas/MetaPaginated'
-      - $ref: '#/components/schemas/MetaPaginatedTransaction_allOf'
-    BankingInstalmentPlanId:
-      description: A unique identifier for a Banking instalment plan, generated according to [CDR ID Permanence](#id-permanence) requirements.
-      type: string
-      x-cds-type: ASCIIString
+    BankingTransactionDetailV3_allOf_extendedData_nppPayload:
+      description: Mandatory if the _extensionUType_ value is `nppPayload`.
+      properties:
+        extendedDescription:
+          description: An extended string description. Mandatory if the _extensionUType_ value is `nppPayload`.
+          type: string
+        endToEndId:
+          description: An end to end ID for the payment created at initiation.
+          type: string
+        purposeCode:
+          description: Purpose of the payment. Format is defined by the NPP standards for the NPP overlay services including Osko (X2P1).
+          type: string
+          x-cds-type: ExternalRef
+        service:
+          $ref: '#/components/schemas/NppPaymentService'
+        serviceVersion:
+          description: Two-digit NPP service overlay version with leading zero.
+          example: '03'
+          type: string
+          x-cds-type: ExternalRef
+      required:
+      - service
+      - serviceVersion
+      type: object
+      x-conditional:
+      - extendedDescription
+    ResponseBankingTransactionByIdV3:
+      properties:
+        data:
+          $ref: '#/components/schemas/BankingTransactionDetailV3'
+        links:
+          $ref: '#/components/schemas/Links'
+        meta:
+          $ref: '#/components/schemas/Meta'
+      required:
+      - data
+      - links
+      type: object
+    ErrorV2:
+      properties:
+        code:
+          description: The code of the error encountered. Where the error is specific to the respondent, an application-specific error code, expressed as a string value. If the error is application-specific, the URN code that the specific error extends must be provided in the _meta_ object. Otherwise, the value is the error code URN.
+          type: string
+        title:
+          description: A short, human-readable summary of the problem that **MUST NOT** change from occurrence to occurrence of the problem represented by the error code.
+          type: string
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          type: string
+        meta:
+          $ref: '#/components/schemas/ErrorV2_meta'
+      required:
+      - code
+      - detail
+      - title
+      type: object
+      x-conditional:
+      - meta
     ErrorV2_meta:
       description: Additional data for customised error codes.
       properties:
@@ -408,13 +532,6 @@ components:
       type: object
       x-conditional:
       - urn
-    MetaPaginatedTransaction_allOf:
-      properties:
-        isQueryParamUnsupported:
-          default: false
-          description: '`true` if _text_ query parameter is not supported.'
-          type: boolean
-      type: object
     BankingTransactionV2:
       properties:
         accountId:
@@ -508,116 +625,6 @@ components:
       - transactionId
       - postingDateTime
       - crn
-    ResponseBankingTransactionByIdV3:
-      properties:
-        data:
-          $ref: '#/components/schemas/BankingTransactionDetailV3'
-        links:
-          $ref: '#/components/schemas/Links'
-        meta:
-          $ref: '#/components/schemas/Meta'
-      required:
-      - data
-      - links
-      type: object
-    BankingTransactionDetailV3_allOf_extendedData_nppPayload:
-      description: Mandatory if the _extensionUType_ value is `nppPayload`.
-      properties:
-        extendedDescription:
-          description: An extended string description. Mandatory if the _extensionUType_ value is `nppPayload`.
-          type: string
-        endToEndId:
-          description: An end to end ID for the payment created at initiation.
-          type: string
-        purposeCode:
-          description: Purpose of the payment. Format is defined by the NPP standards for the NPP overlay services including Osko (X2P1).
-          type: string
-          x-cds-type: ExternalRef
-        service:
-          $ref: '#/components/schemas/NppPaymentService'
-        serviceVersion:
-          description: Two-digit NPP service overlay version with leading zero.
-          example: '03'
-          type: string
-          x-cds-type: ExternalRef
-      required:
-      - service
-      - serviceVersion
-      type: object
-      x-conditional:
-      - extendedDescription
-    NppPaymentService:
-      description: Identifier of the applicable overlay service. The _service_ is used in conjunction with the _serviceVersion_. See [here](#npp-services) for more details.
-      enum:
-      - X2P1
-      - IFTI
-      - BSCT
-      - CATSCT
-      example: X2P1
-      type: string
-    Meta:
-      type: object
-    ResponseBankingTransactionListV2_data:
-      properties:
-        transactions:
-          items:
-            $ref: '#/components/schemas/BankingTransactionV2'
-          type: array
-      required:
-      - transactions
-      type: object
-    ErrorV2:
-      properties:
-        code:
-          description: The code of the error encountered. Where the error is specific to the respondent, an application-specific error code, expressed as a string value. If the error is application-specific, the URN code that the specific error extends must be provided in the _meta_ object. Otherwise, the value is the error code URN.
-          type: string
-        title:
-          description: A short, human-readable summary of the problem that **MUST NOT** change from occurrence to occurrence of the problem represented by the error code.
-          type: string
-        detail:
-          description: A human-readable explanation specific to this occurrence of the problem.
-          type: string
-        meta:
-          $ref: '#/components/schemas/ErrorV2_meta'
-      required:
-      - code
-      - detail
-      - title
-      type: object
-      x-conditional:
-      - meta
-    BankingAccountId:
-      description: A unique identifier for a Banking account, generated according to [CDR ID Permanence](#id-permanence) requirements.
-      type: string
-      x-cds-type: ASCIIString
-    BankingTransactionId:
-      description: A unique identifier for a Banking transaction, generated according to [CDR ID Permanence](#id-permanence) requirements.
-      type: string
-      x-cds-type: ASCIIString
-    BankingTransactionDetailV3_allOf_extendedData:
-      properties:
-        payer:
-          description: Label of the originating payer. Mandatory for inbound payment.
-          type: string
-        payee:
-          description: Label of the target PayID. Mandatory for an outbound payment. The name assigned to the BSB/Account Number or PayID (by the owner of the PayID).
-          type: string
-        extensionUType:
-          description: Optional extended data specific to transactions. Currently extended data is supported for NPP service overlays.
-          enum:
-          - nppPayload
-          type: string
-        nppPayload:
-          $ref: '#/components/schemas/BankingTransactionDetailV3_allOf_extendedData_nppPayload'
-      type: object
-      x-conditional:
-      - payer
-      - payee
-      - nppPayload
-    BankingTransactionDetailV3:
-      allOf:
-      - $ref: '#/components/schemas/BankingTransactionV2'
-      - $ref: '#/components/schemas/BankingTransactionDetailV3_allOf'
     LinksPaginated:
       properties:
         self:
@@ -648,23 +655,16 @@ components:
       - next
       - first
       - last
-    BankingTransactionDetailV3_allOf:
-      properties:
-        extendedData:
-          $ref: '#/components/schemas/BankingTransactionDetailV3_allOf_extendedData'
-      required:
-      - extendedData
-      type: object
   headers:
-    XFAPIInteractionId:
-      description: An **[[RFC4122]](#nref-RFC4122)** UUID used as a correlation id. If provided, the data holder **MUST** play back this value in the _x-fapi-interaction-id_ response header. If not provided a **[[RFC4122]](#nref-RFC4122)** UUID value is required to be provided in the response header to track the interaction.
+    XV:
+      description: The [payload version](#response-headers) that the endpoint has responded with.
       explode: false
       required: true
       schema:
         type: string
       style: simple
-    XV:
-      description: The [payload version](#response-headers) that the endpoint has responded with.
+    XFAPIInteractionId:
+      description: An **[[RFC4122]](#nref-RFC4122)** UUID used as a correlation id. If provided, the data holder **MUST** play back this value in the _x-fapi-interaction-id_ response header. If not provided a **[[RFC4122]](#nref-RFC4122)** UUID value is required to be provided in the response header to track the interaction.
       explode: false
       required: true
       schema:
