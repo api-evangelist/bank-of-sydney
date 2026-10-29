@@ -1,4 +1,4 @@
-# Bank of Sydney (bank-of-sydney)
+# Bank of Sydney
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,56 +64,129 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Bank of Sydney Ltd is an Australian authorised deposit-taking institution (ADI) headquartered in Sydney, New South Wales, offering personal and business banking, home loans, deposits, and everyday accounts. It is a wholly owned subsidiary of Lebanon-based Bank of Beirut. As a regulated ADI, Bank of Sydney participates in Australia's Consumer Data Right (CDR) / Open Banking regime, exposing a public, unauthenticated Product Reference Data (PRD) API that conforms to the Data Standards Body (DSB) Consumer Data Standards.
+Bank of Sydney Ltd is an Australian authorised deposit-taking institution (ADI) headquartered in Sydney, New South Wales, offering personal and business banking, home loans, deposits, and everyday accounts. It is a wholly owned subsidiary of Lebanon-based Bank of Beirut and operates a national branch and digital footprint across Australia. As a regulated ADI, Bank of Sydney participates in Australia's Consumer Data Right (CDR) / Open Banking regime, exposing a public, unauthenticated Product Reference Data (PRD) API that conforms to the Data Standards Body (DSB) Consumer Data Standards. Consumer-facing account and transaction data sharing is delivered to Accredited Data Recipients (ADRs) under the CDR authorisation model, backed by OAuth2/OIDC.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/bank-of-sydney/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/bank-of-sydney/refs/heads/main/apis.yml)
+**Areas:** Finance · Banks · Open Banking · CDR · Consumer Banking · Australia · Product Reference Data · ADI
 
-## Tags
+## Bank of Sydney on APIs.io
 
-- Financial
-- Banks
-- Open Banking
-- CDR
-- Consumer Banking
-- Australia
-- Product Reference Data
-- ADI
+Everything profiled for Bank of Sydney is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/bank-of-sydney/](https://apis.io/providers/bank-of-sydney/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (7)
 
-- **Created:** 2026-07-20
-- **Modified:** 2026-07-20
+- [Bank of Sydney Banking Account Balances API](https://apis.io/apis/bank-of-sydney/bank-of-sydney-banking-account-balances-api/) — Banking Account Balance endpoints
+- [Bank of Sydney Banking Account Direct Debits API](https://apis.io/apis/bank-of-sydney/bank-of-sydney-banking-account-direct-debits-api/) — Banking Account Direct Debit endpoints
+- [Bank of Sydney Banking Account Scheduled Payments API](https://apis.io/apis/bank-of-sydney/bank-of-sydney-banking-account-scheduled-payments-api/) — Banking Account Scheduled Payment endpoints
+- [Bank of Sydney Banking Account Transactions API](https://apis.io/apis/bank-of-sydney/bank-of-sydney-banking-account-transactions-api/) — Banking Account Transaction endpoints
+- [Bank of Sydney Banking Accounts API](https://apis.io/apis/bank-of-sydney/bank-of-sydney-banking-accounts-api/) — Banking Account endpoints
+- [Bank of Sydney Banking Payees API](https://apis.io/apis/bank-of-sydney/bank-of-sydney-banking-payees-api/) — Banking Payee endpoints
+- [Bank of Sydney Banking Products API](https://apis.io/apis/bank-of-sydney/bank-of-sydney-banking-products-api/) — Banking Product endpoints
 
-## APIs
+### Published properties
 
-### Bank of Sydney CDR Product Reference Data API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Public, unauthenticated Product Reference Data (PRD) API exposing Bank of Sydney's retail and business banking product catalogue (home loans, deposits, everyday accounts) under the Consumer Data Right. Confirmed live at HTTP 200 with an `x-v` response header (supports versions 4 and 5) returning a `data.products` array (29 products) conforming to the DSB Consumer Data Standards banking schema.
+#### MCP servers (1)
 
-- **Human URL:** [https://www.banksyd.com.au/tools-support/open-banking/](https://www.banksyd.com.au/tools-support/open-banking/)
-- **Base URL:** `https://openbank.api.banksyd.com.au/cds-au/v1/banking/products`
+Model Context Protocol servers that expose the API to agents.
 
-#### Tags
+- [bank-of-sydney](https://apis.io/servers/bank-of-sydney/bank-of-sydney/)
 
-- CDR
-- Open Banking
-- Product Reference Data
-- Banking
-- Public
+#### Agentic access (1)
 
-#### Properties
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- [Documentation](https://www.banksyd.com.au/tools-support/open-banking/)
-- [API Reference](https://consumerdatastandardsaustralia.github.io/standards/#banking-products)
-- [OpenAPI](openapi/bank-of-sydney-cds-banking-products-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Bank Of Sydney Agentic Access](https://apis.io/agentic-access/bank-of-sydney/bank-of-sydney-agentic-access/)
 
-## Common Properties
+#### Collections (7)
+
+Postman and Open Collection request collections.
+
+- [CDR Banking Banking Account Balances API](https://apis.io/collections/bank-of-sydney/open-bank-of-sydney-banking-account-balances-api/)
+- [CDR Banking Banking Account Balances Banking Account Direct Debits API](https://apis.io/collections/bank-of-sydney/open-bank-of-sydney-banking-account-direct-debits-api/)
+- [CDR Banking Banking Account Balances Banking Account Scheduled Payments API](https://apis.io/collections/bank-of-sydney/open-bank-of-sydney-banking-account-scheduled-payments-api/)
+- [CDR Banking Banking Account Balances Banking Account Transactions API](https://apis.io/collections/bank-of-sydney/open-bank-of-sydney-banking-account-transactions-api/)
+- [CDR Banking Banking Account Balances Banking Accounts API](https://apis.io/collections/bank-of-sydney/open-bank-of-sydney-banking-accounts-api/)
+- [CDR Banking Banking Account Balances Banking Payees API](https://apis.io/collections/bank-of-sydney/open-bank-of-sydney-banking-payees-api/)
+- [CDR Banking Banking Account Balances Banking Products API](https://apis.io/collections/bank-of-sydney/open-bank-of-sydney-banking-products-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Bank Of Sydney Cds Banking Products Overlay](https://apis.io/overlays/bank-of-sydney/bank-of-sydney-cds-banking-products-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Bank Of Sydney Authentication](https://apis.io/security/bank-of-sydney/bank-of-sydney-authentication/)
+- [Bank Of Sydney Domain Security](https://apis.io/security/bank-of-sydney/bank-of-sydney-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Bank Of Sydney Scopes](https://apis.io/scopes/bank-of-sydney/bank-of-sydney-scopes/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.banksyd.com.au/)
 - [Documentation](https://www.banksyd.com.au/tools-support/open-banking/)
-- [LinkedIn](https://www.linkedin.com/company/bank-of-sydney)
+- [Getting started](https://www.banksyd.com.au/tools-support/open-banking/)
+- [API reference](https://consumerdatastandardsaustralia.github.io/standards/#banking-products)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 30.4** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 44.7 |
+| Contract governance | 18.2 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 42.3 |
+| Access clarity | 0.0 |
+
+**Agent readiness 23.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 31.5** — Banking & Open Finance
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/bank-of-sydney/](https://apis.io/providers/bank-of-sydney/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Bank of Sydney: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/bank-of-sydney/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
